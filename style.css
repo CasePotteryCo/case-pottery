@@ -163,10 +163,36 @@ header img { width: 110px; height: auto; display: block; opacity: 0.92; }
 .contact-line a { color: var(--text); text-decoration: none; display: inline-block; margin: 2px 0; }
 .contact-line a:hover { color: var(--accent); }
 
-/* About page */
-.about .portrait { max-width: 520px; margin: 0 0 8px; aspect-ratio: 1 / 1; }
+/* About page: full-screen photo that fades into a blurred watermark behind the bio */
+.bio-photo {
+  position: fixed; inset: 0; z-index: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+  will-change: filter, transform;
+}
+.bio-photo img {
+  width: min(100vw, calc(100svh - 40px), 900px); height: auto; aspect-ratio: 1 / 1;
+  /* soften all four edges so the photo melts into the page */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent), linear-gradient(to bottom, transparent, #000 10%, #000 88%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent), linear-gradient(to bottom, transparent, #000 10%, #000 88%, transparent);
+  mask-composite: intersect;
+}
+.about-page header, .about-page .nav-pill { z-index: 12; }
+.bio-opening {
+  position: relative; z-index: 1;
+  min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+  padding: 0 16px 6svh; text-align: center;
+}
+.bio-opening h1 { font-weight: 600; font-size: clamp(2.2rem, 7vw, 3.6rem); margin: 0; letter-spacing: 0.02em; text-shadow: 0 2px 18px rgba(0,0,0,0.6); }
+.about { position: relative; z-index: 1; padding-top: 40px; }
+.about p { font-weight: 600; font-size: 1.3rem; line-height: 1.55; color: var(--text); text-shadow: 0 1px 12px rgba(0,0,0,0.7); }
+.about .lead { font-weight: 700; font-size: 1.7rem; line-height: 1.35; }
+.about h2 { font-weight: 700; }
+.contact { background: rgba(29,26,23,0.85); }
 .contact strong { font-size: 1.4rem; }
-.contact a { font-size: 1.15rem; }
+.contact a { font-size: 1.15rem; font-weight: 500; }
+.about-page footer { position: relative; z-index: 1; }
 
 footer {
   text-align: center; color: var(--muted); font-size: 0.8rem;
@@ -186,5 +212,4 @@ footer {
   .guide h1, .guide p, .guide .back, .guide .shop { margin-left: 0; margin-right: 0; }
   .nav-pill { top: 12px; right: 12px; padding: 7px 12px; font-size: 0.72rem; }
   .nav-pill.nav-left { left: 12px; right: auto; }
-  .about .portrait { margin: 0 auto 8px; aspect-ratio: 1 / 1; }
 }
