@@ -15,9 +15,10 @@
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       padding: 0.06in; break-inside: avoid; text-align: center; overflow: hidden;
     }
-    .sticker .logo { width: 46%; height: auto; display: block; margin-bottom: 2%; }
-    .sticker svg { width: 62%; height: auto; display: block; }
-    .sticker .label { font-size: calc(var(--size) * 0.075); line-height: 1.1; margin-top: 2%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .sticker .logo { width: 42%; height: auto; display: block; margin-bottom: 2%; }
+    .sticker svg { width: 56%; height: auto; display: block; }
+    .sticker .cta { font-size: calc(var(--size) * 0.08); font-weight: bold; letter-spacing: 0.02em; line-height: 1.1; margin-top: 2%; white-space: nowrap; }
+    .sticker .label { font-size: calc(var(--size) * 0.06); color: #555; line-height: 1.1; margin-top: 1%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
     @media print {
       .controls { display: none; }
       body { padding: 0; }
@@ -68,7 +69,7 @@
       for (const p of list) {
         const url = base + "piece.html?id=" + encodeURIComponent(p.id);
         const one = '<div class="sticker" title="' + esc(url) + '"><img class="logo" src="images/logo.png" alt="Case Pottery Co.">' + qrSvg(url) +
-          '<div class="label">' + esc(p.name) + "</div></div>";
+          '<div class="cta">Scan QR for price</div><div class="label">' + esc(p.name) + "</div></div>";
         html += one.repeat(copies);
       }
       document.getElementById("sheet").innerHTML = html || "<p>No pieces found.</p>";
