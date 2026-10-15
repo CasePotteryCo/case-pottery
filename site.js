@@ -18,15 +18,31 @@ function pieceLink(piece) {
 
 function renderGallery(el) {
   if (!PIECES.length) {
-    el.innerHTML = "<p>New pieces coming soon.</p>";
+    el.innerHTML = '<section class="showcase"><p>New pieces coming soon.</p></section>';
     return;
   }
-  el.innerHTML = '<div class="grid">' + PIECES.map(p =>
-    '<a class="card" href="' + pieceLink(p) + '">' +
-      '<img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '" loading="lazy">' +
-      '<div class="info"><h2>' + esc(p.name) + "</h2>" + priceHtml(p) + "</div>" +
+  el.innerHTML = PIECES.map(p =>
+    '<a class="showcase" href="' + pieceLink(p) + '">' +
+      '<div class="frame reveal"><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '" loading="lazy"></div>' +
+      '<div class="caption reveal"><h2>' + esc(p.name) + "</h2>" + priceHtml(p) + "</div>" +
     "</a>"
-  ).join("") + "</div>";
+  ).join("");
+  revealOnScroll();
+}
+
+// Fades each piece in as it scrolls into view.
+function revealOnScroll() {
+  const items = document.querySelectorAll(".reveal");
+  if (!("IntersectionObserver" in window)) {
+    items.forEach(i => i.classList.add("shown"));
+    return;
+  }
+  const watcher = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("shown"); watcher.unobserve(e.target); }
+    });
+  }, { threshold: 0.15 });
+  items.forEach(i => watcher.observe(i));
 }
 
 function renderPiece(el) {
@@ -40,7 +56,7 @@ function renderPiece(el) {
   }
   document.title = p.name + " | Case Pottery Co.";
   el.innerHTML = '<div class="piece">' +
-    '<img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '">' +
+    '<div class="frame"><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '"></div>' +
     "<h1>" + esc(p.name) + "</h1>" + priceHtml(p) +
     "<p>" + esc(p.description) + "</p>" +
     '<a class="back" href="index.html">See all pottery</a></div>';

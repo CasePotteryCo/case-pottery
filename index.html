@@ -3,15 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#141210">
   <title>Case Pottery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header><a href="index.html"><img src="images/logo.png" alt="Case Pottery Co."></a></header>
+<body class="home">
+  <header><a href="index.html"><img src="images/logo-light.png" alt="Case Pottery Co."></a></header>
+  <section class="intro">
+    <img src="images/logo-light.png" alt="Case Pottery Co.">
+    <p>Handmade pottery</p>
+    <a class="scroll-hint" href="#content" aria-label="See the pottery">&#8595;</a>
+  </section>
   <main id="content"></main>
   <footer>Handmade by Case Pottery Co.</footer>
   <script src="pieces.js"></script>
   <script src="site.js"></script>
-  <script>renderGallery(document.getElementById("content"));</script>
+  <script>
+    renderGallery(document.getElementById("content"));
+    // Small logo at the top appears once the big one scrolls away.
+    const showBar = () => document.body.classList.toggle("scrolled", scrollY > innerHeight * 0.6);
+    addEventListener("scroll", showBar, { passive: true }); showBar();
+  </script>
 </body>
 </html>
