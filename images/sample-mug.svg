@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600">
+  <!-- Sample image: swap for a real photo -->
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#2e2723"/><stop offset="1" stop-color="#161311"/></radialGradient>
+    <linearGradient id="glaze" x1="0" x2="1"><stop offset="0" stop-color="#b9a993"/><stop offset="0.5" stop-color="#e8dfd1"/><stop offset="1" stop-color="#a39380"/></linearGradient>
+  </defs>
+  <rect width="480" height="600" fill="url(#glow)"/>
+  <ellipse cx="225" cy="440" rx="110" ry="14" fill="#0b0a09"/>
+  <path d="M310 250 q70 0 70 60 q0 60 -70 60" stroke="#cbbca6" stroke-width="22" fill="none"/>
+  <path d="M125 210 h200 v200 q0 30 -30 30 h-140 q-30 0 -30 -30 z" fill="url(#glaze)"/>
+  <path d="M125 380 h200 v30 q0 30 -30 30 h-140 q-30 0 -30 -30 z" fill="#7a4b32"/>
+  <ellipse cx="225" cy="210" rx="100" ry="14" fill="#d9cdbb"/>
+  <ellipse cx="225" cy="212" rx="88" ry="9" fill="#5c3c2a"/>
+  <text x="240" y="545" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#6f655c">sample photo</text>
+</svg>

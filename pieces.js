@@ -13,6 +13,22 @@ const SITE_URL = "https://casepotteryco.github.io/case-pottery/";
 
 const PIECES = [
   {
+    id: "sage-vase",
+    name: "Sage Bud Vase",
+    price: "$60",
+    photo: "images/sample-vase.svg",
+    description: "Tall stoneware vase in a soft sage glaze with a thin gold line. About 9 inches tall.",
+    sold: false
+  },
+  {
+    id: "cream-mug",
+    name: "Cream Morning Mug",
+    price: "$32",
+    photo: "images/sample-mug.svg",
+    description: "Everyday mug in a satin cream glaze with a raw clay foot. Holds about 12 oz.",
+    sold: true
+  },
+  {
     id: "blue-bowl",
     name: "Blue Speckled Bowl",
     price: "$45",
