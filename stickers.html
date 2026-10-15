@@ -5,45 +5,93 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>QR Stickers</title>
   <style>
-    body { font-family: Georgia, serif; margin: 0; padding: 16px; color: #2b2420; background: #fff; }
-    .controls { margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-    .controls button { font: inherit; padding: 6px 14px; cursor: pointer; }
-    .sheet { display: flex; flex-wrap: wrap; gap: 0.15in; }
-    .sticker {
-      width: var(--size); height: var(--size);
-      border: 1px dashed #bbb; border-radius: 6px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 0.06in; break-inside: avoid; text-align: center; overflow: hidden;
+    /* Made for Avery 22805 sheets: 1.5 inch square labels, 4 across, 6 down, letter paper.
+       Label 1 is top left, numbers go left to right, then down. */
+    :root {
+      --label: 1.5in;
+      --left: 0.5in;   --top: 0.5in;     /* space before the first label */
+      --across: 2in;   --down: 1.7in;    /* distance from one label to the next */
     }
+    @page { size: letter; margin: 0; }
+    * { box-sizing: border-box; }
+    body { font-family: Georgia, serif; margin: 0; padding: 16px; color: #2b2420; background: #f3efe9; }
+    h1 { font-weight: normal; font-size: 1.4rem; margin: 0 0 4px; }
+    .hint { color: #6b625a; margin: 0 0 16px; max-width: 640px; }
+    .panel { background: #fff; border: 1px solid #e3ddd4; border-radius: 8px; padding: 16px; max-width: 640px; margin-bottom: 16px; }
+    .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
+    select, input, button { font: inherit; }
+    select { padding: 6px 8px; min-width: 220px; }
+    button { padding: 8px 16px; cursor: pointer; border-radius: 6px; border: 1px solid #bdb3a7; background: #fff; }
+    button.main { background: #2b2420; color: #fff; border-color: #2b2420; }
+    .map { display: grid; grid-template-columns: repeat(4, 52px); gap: 6px 14px; margin: 6px 0 12px; }
+    .map button { width: 52px; height: 44px; padding: 0; font-size: 1.05rem; }
+    .map button.on { background: #a0522d; color: #fff; border-color: #a0522d; }
+    details { margin-top: 8px; color: #6b625a; }
+    details input { width: 5em; }
+
+    /* The printed page, drawn to real size */
+    .preview-wrap { overflow: hidden; max-width: 640px; }
+    .page {
+      position: relative; width: 8.5in; height: 11in; background: #fff;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15); transform-origin: top left;
+    }
+    .spot {
+      position: absolute; width: var(--label); height: var(--label);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; overflow: hidden; padding: 0.08in;
+    }
+    .spot.outline { border: 1px dashed #c9c0b5; border-radius: 0.08in; }
+    .spot .num { font-size: 0.5in; color: #b8ada0; }
+    .spot.test { border: 1px solid #888; }
+    .spot.test .num { color: #555; }
     .sticker .logo { width: 42%; height: auto; display: block; margin-bottom: 2%; }
     .sticker svg { width: 56%; height: auto; display: block; }
-    .sticker .cta { font-size: calc(var(--size) * 0.08); font-weight: bold; letter-spacing: 0.02em; line-height: 1.1; margin-top: 2%; white-space: nowrap; }
-    .sticker .label { font-size: calc(var(--size) * 0.06); color: #555; line-height: 1.1; margin-top: 1%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .sticker .cta { font-size: 0.12in; font-weight: bold; letter-spacing: 0.02em; line-height: 1.1; margin-top: 2%; white-space: nowrap; }
+    .sticker .label { font-size: 0.09in; color: #555; line-height: 1.1; margin-top: 1%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+
     @media print {
-      .controls { display: none; }
-      body { padding: 0; }
-      .sticker { border-color: #ddd; }
+      body { padding: 0; background: #fff; }
+      .screen-only { display: none !important; }
+      .preview-wrap { max-width: none; overflow: visible; }
+      .page { box-shadow: none; transform: none !important; }
+      .spot.outline:not(.test) { border: none; }
     }
   </style>
 </head>
 <body>
-  <div class="controls">
-    <label>Sticker size
-      <select id="size">
-        <option value="1in">1 inch</option>
-        <option value="1.5in" selected>1.5 inch</option>
-        <option value="2in">2 inch</option>
-      </select>
-    </label>
-    <label>Copies of each <input id="copies" type="number" min="1" max="30" value="1" style="width:4em"></label>
-    <button onclick="window.print()">Print</button>
+  <div class="screen-only">
+    <h1>Print a sticker</h1>
+    <p class="hint">For Avery 22805 sticker sheets (24 square stickers per sheet). Pick the piece, tap the spot number, then print. Print from a computer at <b>100% / Actual size</b> with margins set to <b>None</b>.</p>
+
+    <div class="panel">
+      <div class="row">
+        <label>Piece <select id="piece"></select></label>
+      </div>
+      <div>Spot on the sheet: <b id="spotLabel"></b></div>
+      <div class="map" id="map"></div>
+      <div class="row">
+        <button class="main" id="printOne">Print sticker</button>
+        <button id="printTest">Print numbered test page</button>
+      </div>
+      <details>
+        <summary>Sticker printing a little off? Nudge it</summary>
+        <p>Move everything right <input id="nudgeX" type="number" step="0.5" value="0"> mm and down <input id="nudgeY" type="number" step="0.5" value="0"> mm. Use negative numbers to go left or up. This browser remembers it.</p>
+      </details>
+    </div>
   </div>
-  <div class="sheet" id="sheet"></div>
+
+  <div class="preview-wrap" id="wrap">
+    <div class="page" id="page"></div>
+  </div>
 
   <script src="pieces.js"></script>
   <script src="qrcode.js"></script>
   <script>
-    // Print all pieces, or just one with stickers.html?id=blue-bowl
+    const COLS = 4, ROWS = 6, SPOTS = COLS * ROWS;
+    const params = new URLSearchParams(location.search);
+    let spot = Math.min(SPOTS, Math.max(1, parseInt(params.get("spot"), 10) || 1));
+    let testMode = false;
+
     function qrSvg(text) {
       const qr = qrcode(0, "M");
       qr.addData(text);
@@ -59,24 +107,72 @@
 
     function esc(t) { const d = document.createElement("div"); d.textContent = t; return d.innerHTML; }
 
-    function draw() {
-      const only = new URLSearchParams(location.search).get("id");
-      const list = only ? PIECES.filter(p => p.id === only) : PIECES;
-      const copies = Math.max(1, Math.min(30, parseInt(document.getElementById("copies").value, 10) || 1));
+    function load(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+    function save(key, val) { try { localStorage.setItem(key, val); } catch (e) {} }
+
+    function stickerHtml(p) {
       const base = SITE_URL.endsWith("/") ? SITE_URL : SITE_URL + "/";
-      document.getElementById("sheet").style.setProperty("--size", document.getElementById("size").value);
-      let html = "";
-      for (const p of list) {
-        const url = base + "piece.html?id=" + encodeURIComponent(p.id);
-        const one = '<div class="sticker" title="' + esc(url) + '"><img class="logo" src="images/logo.png" alt="Case Pottery Co.">' + qrSvg(url) +
-          '<div class="cta">Scan QR for price</div><div class="label">' + esc(p.name) + "</div></div>";
-        html += one.repeat(copies);
-      }
-      document.getElementById("sheet").innerHTML = html || "<p>No pieces found.</p>";
+      const url = base + "piece.html?id=" + encodeURIComponent(p.id);
+      return '<img class="logo" src="images/logo.png" alt="Case Pottery Co.">' + qrSvg(url) +
+        '<div class="cta">Scan QR for price</div><div class="label">' + esc(p.name) + "</div>";
     }
 
-    document.getElementById("size").onchange = draw;
-    document.getElementById("copies").oninput = draw;
+    function draw() {
+      const nx = parseFloat(document.getElementById("nudgeX").value) || 0;
+      const ny = parseFloat(document.getElementById("nudgeY").value) || 0;
+      const piece = PIECES.find(p => p.id === document.getElementById("piece").value);
+      let html = "";
+      for (let i = 1; i <= SPOTS; i++) {
+        const col = (i - 1) % COLS, row = Math.floor((i - 1) / COLS);
+        const pos = "left:calc(var(--left) + " + col + " * var(--across) + " + nx + "mm);" +
+                    "top:calc(var(--top) + " + row + " * var(--down) + " + ny + "mm)";
+        if (testMode) {
+          html += '<div class="spot outline test" style="' + pos + '"><span class="num">' + i + "</span></div>";
+        } else if (i === spot && piece) {
+          html += '<div class="spot outline sticker" style="' + pos + '">' + stickerHtml(piece) + "</div>";
+        } else {
+          html += '<div class="spot outline" style="' + pos + '"><span class="num screen-only">' + i + "</span></div>";
+        }
+      }
+      document.getElementById("page").innerHTML = html;
+      document.getElementById("spotLabel").textContent = spot;
+      document.querySelectorAll("#map button").forEach(b => b.classList.toggle("on", +b.textContent === spot));
+      fitPreview();
+    }
+
+    // Shrink the on-screen page so it fits; printing always uses real size.
+    function fitPreview() {
+      const page = document.getElementById("page"), wrap = document.getElementById("wrap");
+      const scale = Math.min(1, wrap.clientWidth / page.offsetWidth);
+      page.style.transform = "scale(" + scale + ")";
+      wrap.style.height = page.offsetHeight * scale + "px";
+    }
+
+    function printPage(test) {
+      testMode = test; draw();
+      window.print();
+      testMode = false; draw();
+    }
+
+    // Set up the controls
+    const select = document.getElementById("piece");
+    select.innerHTML = PIECES.map(p => '<option value="' + esc(p.id) + '">' + esc(p.name) + "</option>").join("");
+    if (params.get("id")) select.value = params.get("id");
+    const map = document.getElementById("map");
+    for (let i = 1; i <= SPOTS; i++) {
+      const b = document.createElement("button");
+      b.textContent = i;
+      b.onclick = () => { spot = i; draw(); };
+      map.appendChild(b);
+    }
+    document.getElementById("nudgeX").value = load("nudgeX") || 0;
+    document.getElementById("nudgeY").value = load("nudgeY") || 0;
+    ["nudgeX", "nudgeY"].forEach(id => document.getElementById(id).oninput = e => { save(id, e.target.value); draw(); });
+    select.onchange = draw;
+    document.getElementById("printOne").onclick = () => printPage(false);
+    document.getElementById("printTest").onclick = () => printPage(true);
+    addEventListener("resize", fitPreview);
+    if (params.get("test")) testMode = true;
     draw();
   </script>
 </body>

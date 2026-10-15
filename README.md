@@ -7,7 +7,7 @@ A tiny website: a gallery page, one page per piece, and a printable QR sticker s
 - `images/` — photos and the logo (`logo.png` is the Case Pottery Co. logo).
 - `index.html` — gallery of all pieces.
 - `piece.html?id=...` — one piece's page. This is what the QR code opens.
-- `stickers.html` — printable QR stickers for every piece. Add `?id=blue-bowl` to print just one.
+- `stickers.html` — prints one QR sticker at a time onto an Avery 22805 sheet (1.5" squares, 24 per sheet, spots numbered 1–24 left to right, top to bottom). Link straight to a piece and spot with `stickers.html?id=blue-bowl&spot=7`, or print the numbered test page with `?test=1`.
 - `style.css`, `site.js`, `qrcode.js` — behind-the-scenes; no need to touch.
 
 ## Updating with Claude
