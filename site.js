@@ -12,6 +12,12 @@ function priceHtml(piece) {
     : '<span class="price">' + esc(piece.price) + "</span>";
 }
 
+function shopHtml(piece) {
+  return piece.shop
+    ? '<div class="shop">Found exclusively at <span>' + esc(piece.shop) + "</span></div>"
+    : "";
+}
+
 function pieceLink(piece) {
   return "piece.html?id=" + encodeURIComponent(piece.id);
 }
@@ -24,7 +30,7 @@ function renderGallery(el) {
   el.innerHTML = PIECES.map(p =>
     '<a class="showcase" href="' + pieceLink(p) + '">' +
       '<div class="frame reveal"><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '" loading="lazy"></div>' +
-      '<div class="caption reveal"><h2>' + esc(p.name) + "</h2>" + priceHtml(p) + "</div>" +
+      '<div class="caption reveal"><h2>' + esc(p.name) + "</h2>" + priceHtml(p) + shopHtml(p) + "</div>" +
     "</a>"
   ).join("");
   revealOnScroll();
@@ -57,7 +63,7 @@ function renderPiece(el) {
   document.title = p.name + " | Case Pottery Co.";
   el.innerHTML = '<div class="piece">' +
     '<div class="frame"><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '"></div>' +
-    "<h1>" + esc(p.name) + "</h1>" + priceHtml(p) +
+    "<h1>" + esc(p.name) + "</h1>" + priceHtml(p) + shopHtml(p) +
     "<p>" + esc(p.description) + "</p>" +
     '<a class="back" href="index.html">See all pottery</a></div>';
 }

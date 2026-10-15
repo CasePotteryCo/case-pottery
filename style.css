@@ -78,6 +78,12 @@ header img { width: 110px; height: auto; display: block; opacity: 0.92; }
 .price { color: var(--accent); letter-spacing: 0.08em; }
 .sold { color: var(--muted); font-style: italic; letter-spacing: 0.08em; }
 
+.shop {
+  margin-top: 10px; color: var(--muted);
+  font-style: italic; font-size: 1rem; letter-spacing: 0.04em;
+}
+.shop span { color: var(--text); font-style: normal; }
+
 /* Fade in as you scroll */
 .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s ease; }
 .reveal.shown { opacity: 1; transform: none; }
@@ -108,4 +114,5 @@ footer {
   .piece .frame { border-radius: 0; aspect-ratio: 3 / 4; }
   .piece h1, .piece .price, .piece .sold, .piece p, .piece .back { margin-left: 16px; margin-right: 16px; }
   .piece .price, .piece .sold { display: inline-block; }
+  .piece .shop { margin-left: 16px; margin-right: 16px; }
 }
