@@ -23,3 +23,6 @@ Claude edits `pieces.js`, adds the photo to `images/`, and publishes.
 ## Rules of thumb
 - Never change a piece's `id` after its sticker is printed, or the sticker will stop working.
 - Set `SITE_URL` in `pieces.js` to the real address before printing stickers.
+
+## Showing up in Google and link previews
+Every page has a title, a description and a preview picture (images/share.jpg, and images/share-artist.jpg for the About page). sitemap.xml lists the pages for Google. When real pieces are added, Claude adds each piece page to sitemap.xml.

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /stickers.html
+Sitemap: https://casepotteryco.github.io/case-pottery/sitemap.xml

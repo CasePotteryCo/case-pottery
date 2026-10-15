@@ -113,7 +113,14 @@ function renderPiece(el) {
       '<a class="back" href="index.html">See all pottery</a></div>';
     return;
   }
-  document.title = p.name + " | Case Pottery Co.";
+  // Per-piece title and description, so each piece can show up in Google on its own
+  const summary = "Handmade " + p.name.toLowerCase() + " by Case Pottery Co. " + p.description.replace(/\s+/g, " ").trim();
+  document.title = p.name + " | Handmade by Case Pottery Co.";
+  const setMeta = (sel, attr, val) => { const m = document.querySelector(sel); if (m) m.setAttribute(attr, val); };
+  setMeta('meta[name="description"]', "content", summary.slice(0, 160));
+  setMeta('meta[property="og:title"]', "content", document.title);
+  setMeta('meta[property="og:description"]', "content", summary.slice(0, 200));
+  setMeta('link[rel="canonical"]', "href", SITE_URL + "piece.html?id=" + encodeURIComponent(p.id));
   el.innerHTML = '<div class="piece">' +
     '<div class="frame"><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '"></div>' +
     "<h1>" + esc(p.name) + "</h1>" + priceHtml(p) + buyHtml(p) +

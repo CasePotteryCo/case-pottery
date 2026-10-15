@@ -236,3 +236,11 @@ footer {
 .signup [hidden] { display: none; }
 .signup-done { color: var(--text) !important; font-weight: 600; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* Custom mugs for coffee shops (home page) */
+.custom-mugs { max-width: 620px; margin: 40px auto 0; padding: 48px 20px 8px; text-align: center; border-top: 1px solid var(--line); }
+.custom-mugs h2 { font-weight: 600; font-size: clamp(1.7rem, 5vw, 2.2rem); margin: 0 0 10px; text-wrap: balance; }
+.custom-mugs p { color: #cfc6ba; font-size: 1.2rem; margin: 0 0 6px; }
+.custom-mugs .custom-call { color: var(--muted); font-size: 1rem; margin-top: 12px; }
+.custom-mugs .custom-call a { color: var(--text); text-decoration: none; }
+.custom-mugs .custom-call a:hover { color: var(--accent); }
