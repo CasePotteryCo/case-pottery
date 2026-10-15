@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600">
+  <!-- Placeholder: swap for a photo of the artist -->
+  <defs><radialGradient id="g" cx="50%" cy="42%" r="65%"><stop offset="0" stop-color="#2c2622"/><stop offset="1" stop-color="#161311"/></radialGradient></defs>
+  <rect width="480" height="600" fill="url(#g)"/>
+  <circle cx="240" cy="230" r="70" fill="#3a332d"/>
+  <path d="M110 470 q0 -130 130 -130 q130 0 130 130 z" fill="#3a332d"/>
+  <text x="240" y="545" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#6f655c">artist photo coming soon</text>
+</svg>
