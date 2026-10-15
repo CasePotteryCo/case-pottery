@@ -39,20 +39,41 @@ function shopDetailsHtml(piece) {
   return html + "</div>";
 }
 
+// "Buy online" button. Shows only when the piece has a checkout link and isn't sold.
+function buyHtml(piece) {
+  if (piece.sold || !piece.buy) return "";
+  if (!/^https:\/\//.test(piece.buy)) {
+    return '<span class="buy disabled">Online checkout coming soon</span>';
+  }
+  return '<a class="buy" href="' + esc(piece.buy) + '" target="_blank" rel="noopener">Buy online</a>';
+}
+
+function forSaleOnline(piece) {
+  return piece.buy && !piece.sold;
+}
+
 function pieceLink(piece) {
   return "piece.html?id=" + encodeURIComponent(piece.id);
 }
 
-function renderGallery(el) {
-  if (!PIECES.length) {
-    el.innerHTML = '<section class="showcase"><p>New pieces coming soon.</p></section>';
+// onlineOnly: true for the Shop Online page, which lists only pieces you can buy online.
+function renderGallery(el, onlineOnly) {
+  const list = onlineOnly ? PIECES.filter(forSaleOnline) : PIECES;
+  if (!list.length) {
+    el.innerHTML = '<section class="showcase"><p class="empty">' +
+      (onlineOnly ? "Nothing available online right now. Check back soon." : "New pieces coming soon.") +
+      "</p></section>";
     return;
   }
-  el.innerHTML = PIECES.map(p =>
-    '<a class="showcase" href="' + pieceLink(p) + '">' +
-      '<div class="frame reveal"><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '" loading="lazy"></div>' +
-      '<div class="caption reveal"><h2>' + esc(p.name) + "</h2>" + priceHtml(p) + shopHtml(p) + "</div>" +
-    "</a>"
+  el.innerHTML = list.map(p =>
+    '<section class="showcase">' +
+      '<a class="showcase-link" href="' + pieceLink(p) + '">' +
+        '<div class="frame reveal"><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '" loading="lazy"></div>' +
+        '<div class="caption reveal"><h2>' + esc(p.name) + "</h2>" + priceHtml(p) +
+          (onlineOnly ? "" : shopHtml(p)) + "</div>" +
+      "</a>" +
+      (onlineOnly ? '<div class="reveal">' + buyHtml(p) + "</div>" : "") +
+    "</section>"
   ).join("");
   revealOnScroll();
 }
@@ -84,7 +105,7 @@ function renderPiece(el) {
   document.title = p.name + " | Case Pottery Co.";
   el.innerHTML = '<div class="piece">' +
     '<div class="frame"><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '"></div>' +
-    "<h1>" + esc(p.name) + "</h1>" + priceHtml(p) +
+    "<h1>" + esc(p.name) + "</h1>" + priceHtml(p) + buyHtml(p) +
     "<p>" + esc(p.description) + "</p>" + shopDetailsHtml(p) +
     '<a class="back" href="index.html">See all pottery</a></div>';
 }

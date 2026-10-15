@@ -8,6 +8,9 @@
 //         dashes, no spaces). Don't change it after printing a sticker.
 //  shop   which coffee shop carries it: the short name of a shop from
 //         the SHOPS list below. Leave as "" to hide the line.
+//  buy    the checkout link (from Stripe) for buying it online. A piece
+//         with a link shows a "Buy online" button and appears on the
+//         Shop Online page. Leave as "" if it's only sold in person.
 //  sold   true hides the price and shows "Sold".
 // =====================================================================
 
@@ -31,6 +34,7 @@ const PIECES = [
     photo: "images/sample-vase.svg",
     description: "Tall stoneware vase in a soft sage glaze with a thin gold line. About 9 inches tall.",
     shop: "sample-coffee",
+    buy: "sample",
     sold: false
   },
   {
@@ -40,6 +44,7 @@ const PIECES = [
     photo: "images/sample-mug.svg",
     description: "Everyday mug in a satin cream glaze with a raw clay foot. Holds about 12 oz.",
     shop: "sample-coffee",
+    buy: "",
     sold: true
   },
   {
@@ -49,6 +54,7 @@ const PIECES = [
     photo: "images/sample-bowl.svg",
     description: "Wheel-thrown stoneware bowl with a speckled blue glaze. About 6 inches across. Food and dishwasher safe.",
     shop: "sample-coffee",
+    buy: "sample",
     sold: false
   }
 ];
