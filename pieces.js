@@ -6,12 +6,22 @@
 //
 //  id     short name used in the web address and QR code (lowercase,
 //         dashes, no spaces). Don't change it after printing a sticker.
-//  shop   the coffee shop where it's sold. Shows "Found exclusively at ...".
-//         Leave as "" to hide the line.
+//  shop   which coffee shop carries it: the short name of a shop from
+//         the SHOPS list below. Leave as "" to hide the line.
 //  sold   true hides the price and shows "Sold".
 // =====================================================================
 
 const SITE_URL = "https://casepotteryco.github.io/case-pottery/";
+
+// Coffee shops that carry your pottery. Each piece page shows
+// "Found exclusively at", then the shop's name, phone number and address.
+const SHOPS = {
+  "sample-coffee": {
+    name: "Sample Coffee House",
+    phone: "(555) 555-0123",
+    address: "123 Main Street, Your Town"
+  }
+};
 
 const PIECES = [
   {
@@ -20,7 +30,7 @@ const PIECES = [
     price: "$60",
     photo: "images/sample-vase.svg",
     description: "Tall stoneware vase in a soft sage glaze with a thin gold line. About 9 inches tall.",
-    shop: "Sample Coffee House",
+    shop: "sample-coffee",
     sold: false
   },
   {
@@ -29,7 +39,7 @@ const PIECES = [
     price: "$32",
     photo: "images/sample-mug.svg",
     description: "Everyday mug in a satin cream glaze with a raw clay foot. Holds about 12 oz.",
-    shop: "Sample Coffee House",
+    shop: "sample-coffee",
     sold: true
   },
   {
@@ -38,7 +48,7 @@ const PIECES = [
     price: "$45",
     photo: "images/sample-bowl.svg",
     description: "Wheel-thrown stoneware bowl with a speckled blue glaze. About 6 inches across. Food and dishwasher safe.",
-    shop: "Sample Coffee House",
+    shop: "sample-coffee",
     sold: false
   }
 ];

@@ -12,10 +12,31 @@ function priceHtml(piece) {
     : '<span class="price">' + esc(piece.price) + "</span>";
 }
 
+function findShop(piece) {
+  return (typeof SHOPS !== "undefined" && SHOPS[piece.shop]) || null;
+}
+
+// Short version for the gallery: just the shop's name.
 function shopHtml(piece) {
-  return piece.shop
-    ? '<div class="shop">Found exclusively at <span>' + esc(piece.shop) + "</span></div>"
+  const shop = findShop(piece);
+  return shop
+    ? '<div class="shop">Found exclusively at <span>' + esc(shop.name) + "</span></div>"
     : "";
+}
+
+// Full version for a piece's own page: name, phone (tap to call) and address (tap for map).
+function shopDetailsHtml(piece) {
+  const shop = findShop(piece);
+  if (!shop) return "";
+  let html = '<div class="shop shop-full">Found exclusively at<strong>' + esc(shop.name) + "</strong>";
+  if (shop.phone) {
+    html += '<a href="tel:' + esc(shop.phone.replace(/[^0-9+]/g, "")) + '">' + esc(shop.phone) + "</a>";
+  }
+  if (shop.address) {
+    html += '<a href="https://maps.google.com/?q=' + encodeURIComponent(shop.address) +
+      '" target="_blank" rel="noopener">' + esc(shop.address) + "</a>";
+  }
+  return html + "</div>";
 }
 
 function pieceLink(piece) {
@@ -63,7 +84,7 @@ function renderPiece(el) {
   document.title = p.name + " | Case Pottery Co.";
   el.innerHTML = '<div class="piece">' +
     '<div class="frame"><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '"></div>' +
-    "<h1>" + esc(p.name) + "</h1>" + priceHtml(p) + shopHtml(p) +
-    "<p>" + esc(p.description) + "</p>" +
+    "<h1>" + esc(p.name) + "</h1>" + priceHtml(p) +
+    "<p>" + esc(p.description) + "</p>" + shopDetailsHtml(p) +
     '<a class="back" href="index.html">See all pottery</a></div>';
 }

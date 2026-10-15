@@ -9,6 +9,7 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
+  font-variant-numeric: lining-nums;
   margin: 0;
   background: var(--bg);
   color: var(--text);
@@ -83,6 +84,16 @@ header img { width: 110px; height: auto; display: block; opacity: 0.92; }
   font-style: italic; font-size: 1rem; letter-spacing: 0.04em;
 }
 .shop span { color: var(--text); font-style: normal; }
+.shop-full {
+  margin-top: 28px; padding: 18px 20px;
+  border: 1px solid var(--line); border-radius: 4px; background: var(--panel);
+}
+.shop-full strong, .shop-full a {
+  display: block; font-style: normal; color: var(--text);
+}
+.shop-full strong { font-weight: 500; font-size: 1.3rem; margin: 4px 0 6px; letter-spacing: 0.02em; }
+.shop-full a { text-decoration: none; color: #cfc6ba; font-size: 1.05rem; line-height: 1.7; }
+.shop-full a:hover { color: var(--accent); }
 
 /* Fade in as you scroll */
 .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s ease; }
