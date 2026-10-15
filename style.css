@@ -164,7 +164,7 @@ header img { width: 110px; height: auto; display: block; opacity: 0.92; }
 .contact-line a:hover { color: var(--accent); }
 
 /* About page */
-.about .portrait { max-width: 420px; margin: 0 0 8px; }
+.about .portrait { max-width: 520px; margin: 0 0 8px; aspect-ratio: 1 / 1; }
 .contact strong { font-size: 1.4rem; }
 .contact a { font-size: 1.15rem; }
 
@@ -186,5 +186,5 @@ footer {
   .guide h1, .guide p, .guide .back, .guide .shop { margin-left: 0; margin-right: 0; }
   .nav-pill { top: 12px; right: 12px; padding: 7px 12px; font-size: 0.72rem; }
   .nav-pill.nav-left { left: 12px; right: auto; }
-  .about .portrait { margin: 0 auto 8px; }
+  .about .portrait { margin: 0 auto 8px; aspect-ratio: 1 / 1; }
 }
