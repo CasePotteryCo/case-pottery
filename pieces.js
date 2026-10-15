@@ -28,6 +28,16 @@ const SHOPS = {
 
 const PIECES = [
   {
+    id: "sample-prayer-bowl",
+    name: "Small Prayer Bowl",
+    price: "$38",
+    photo: "images/sample-bowl.svg",
+    description: "A small prayer bowl for keeping written prayers close. Stoneware with a speckled blue glaze, about 4 inches across.",
+    shop: "sample-coffee",
+    buy: "sample",
+    sold: false
+  },
+  {
     id: "sage-vase",
     name: "Sage Bud Vase",
     price: "$60",

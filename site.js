@@ -48,6 +48,15 @@ function buyHtml(piece) {
   return '<a class="buy" href="' + esc(piece.buy) + '" target="_blank" rel="noopener">Buy online</a>';
 }
 
+// "How to use" button for prayer bowls: shows on any piece whose name or
+// description mentions "prayer bowl". The instructions live in prayer-bowl.html.
+function howToHtml(piece) {
+  const text = (piece.name || "") + " " + (piece.description || "");
+  return /prayer[\s-]*bowl/i.test(text)
+    ? '<a class="howto" href="prayer-bowl.html">How to use your prayer bowl</a>'
+    : "";
+}
+
 function forSaleOnline(piece) {
   return piece.buy && !piece.sold;
 }
@@ -72,7 +81,9 @@ function renderGallery(el, onlineOnly) {
         '<div class="caption reveal"><h2>' + esc(p.name) + "</h2>" + priceHtml(p) +
           (onlineOnly ? "" : shopHtml(p)) + "</div>" +
       "</a>" +
-      (onlineOnly ? '<div class="reveal">' + buyHtml(p) + "</div>" : "") +
+      ((onlineOnly && buyHtml(p)) || howToHtml(p)
+        ? '<div class="actions reveal">' + (onlineOnly ? buyHtml(p) : "") + howToHtml(p) + "</div>"
+        : "") +
     "</section>"
   ).join("");
   revealOnScroll();
@@ -106,6 +117,6 @@ function renderPiece(el) {
   el.innerHTML = '<div class="piece">' +
     '<div class="frame"><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '"></div>' +
     "<h1>" + esc(p.name) + "</h1>" + priceHtml(p) + buyHtml(p) +
-    "<p>" + esc(p.description) + "</p>" + shopDetailsHtml(p) +
+    "<p>" + esc(p.description) + "</p>" + howToHtml(p) + shopDetailsHtml(p) +
     '<a class="back" href="index.html">See all pottery</a></div>';
 }

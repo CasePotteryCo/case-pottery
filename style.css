@@ -111,6 +111,25 @@ header img { width: 110px; height: auto; display: block; opacity: 0.92; }
 .buy.disabled { background: transparent; color: var(--muted); border: 1px solid var(--line); text-transform: none; letter-spacing: 0.04em; font-style: italic; }
 .piece .buy { display: block; width: fit-content; }
 
+/* Prayer bowl "How to use" button */
+.actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; }
+.howto {
+  display: inline-block; margin-top: 18px; padding: 11px 26px;
+  border: 1px solid var(--accent); color: var(--accent); border-radius: 999px;
+  text-decoration: none; font-size: 1rem; letter-spacing: 0.06em;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.howto:hover { background: var(--accent); color: #1a1512; }
+.piece .howto { margin-top: 4px; }
+
+/* Instructions page */
+.guide { padding-top: 110px; }
+.guide h1 { margin-top: 0; }
+.guide .lead { font-size: 1.3rem; color: var(--text); }
+.guide h2 { font-weight: 400; font-size: 1.5rem; color: var(--accent); margin: 34px 0 8px; letter-spacing: 0.02em; }
+.guide ol, .guide ul { padding-left: 1.3em; color: #cfc6ba; font-size: 1.15rem; }
+.guide li { margin-bottom: 8px; }
+
 /* "Shop online" / "All pottery" button, top right */
 .nav-pill {
   position: fixed; top: 16px; right: 16px; z-index: 11;
@@ -152,6 +171,8 @@ footer {
   .piece .frame { border-radius: 0; aspect-ratio: 3 / 4; }
   .piece h1, .piece .price, .piece .sold, .piece p, .piece .back { margin-left: 16px; margin-right: 16px; }
   .piece .price, .piece .sold { display: inline-block; }
-  .piece .shop, .piece .buy { margin-left: 16px; margin-right: 16px; }
+  .piece .shop, .piece .buy, .piece .howto { margin-left: 16px; margin-right: 16px; }
+  .guide { padding: 96px 16px 24px; }
+  .guide h1, .guide p, .guide .back { margin-left: 0; margin-right: 0; }
   .nav-pill { top: 12px; right: 12px; padding: 7px 12px; font-size: 0.72rem; }
 }
